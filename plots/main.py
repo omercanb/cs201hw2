@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-name = 'binary'
+name = 'jump'
 name_to_title = {
     'linear' : 'Linear',
     'linearRecursive': 'Recursive Linear',
@@ -24,21 +24,21 @@ fig, ax = plt.subplots()
 plt.xscale('log')
 plt.yscale('log')
 
-plt.plot(df['n'], df['near_start'], label='Near Start', marker='o')
-plt.plot(df['n'], df['near_middle'], label='Near Middle', marker='x')
-plt.plot(df['n'], df['near_end'], label='Near End', marker='s')
-plt.plot(df['n'], df['not_in_collection'], label='Not In Collection', marker='^')
+plt.plot(df['n'], df['near_start'], label='Near Start', marker='o', alpha = 1)
+plt.plot(df['n'], df['near_middle'], label='Near Middle', marker='x', alpha = 1)
+plt.plot(df['n'], df['near_end'], label='Near End', marker='s', alpha = 1)
+plt.plot(df['n'], df['not_in_collection'], label='Not In Collection', marker='^', alpha = 0.3)
 
 plt.xlabel('Array Size')
-plt.ylabel('Runtime (ms)')
-plt.title('Runtime vs Array Size For ' + name_to_title[name] + ' Search (Smaller Y Axis Range)')
-# plt.title('Runtime vs Array Size For ' + name_to_title[name] + ' Search')
+plt.ylabel('Runtime (ns)')
+# plt.title('Runtime vs Array Size For ' + name_to_title[name] + ' Search (Smaller Y Axis Range)')
+plt.title('Runtime vs Array Size For ' + name_to_title[name] + ' Search')
 plt.legend(title='Keys Searched For', loc=2)
 
 
 ax.set_xlim(1, max_n*1.5)
-# ax.set_ylim(1, max_t*1.5)
-ax.set_ylim(1, max_t*1.5/10000)
+ax.set_ylim(1, max_t*1.5)
+# ax.set_ylim(1, max_t*1.5/10000)
 
 # plt.savefig('plots/'+ name_to_title[name] + " Smaller Y Axis")
 # plt.savefig('plots/'+ name_to_title[name])

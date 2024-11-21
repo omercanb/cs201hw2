@@ -41,8 +41,7 @@ int binarySearch(const std::vector<int>& vec, int value) {
     return -1;
 }
 int jumpSearch(const std::vector<int>& vec, int value) {
-    // int block_size = static_cast<int>(std::sqrt(vec.size()));
-    int block_size = vec.size();
+    int block_size = static_cast<int>(std::sqrt(vec.size()));
     int i = 0;
     for (; i < vec.size(); i += block_size) {
         if (vec[i] == value) {
@@ -56,6 +55,8 @@ int jumpSearch(const std::vector<int>& vec, int value) {
     for (int j = i; j < vec.size() && j < i + block_size; j += 1) {
         if (vec[j] == value) {
             return j;
+        } if (vec[j] > value) {
+            return -1;
         }
     }
     return -1;
@@ -67,7 +68,10 @@ int randomSearch(const std::vector<int>& vec, int value, std::mt19937& rng) {
     for (int i = 0; i < indices.size(); i++) {
         indices[i] = i;
     }
-    std::ranges::shuffle(indices, rng);
+    for (int i = indices.size() - 1; i < 0; i--) {
+        int j = std::uniform_int_distribution<int>(0, i)(rng);
+        std::swap(indices[i], indices[j]);
+    }
     for (const int idx : indices) {
         if (vec[idx] == value) {
             return idx;

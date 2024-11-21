@@ -20,11 +20,11 @@ void testSearch(std::vector<int>& vec, KeysForSearch keys);
 
 
 int main() {
-    // std::vector<int> vec = createRandomSortedArray(10);
+    // std::vector<int> vec = createRandomSortedArray(1000);
     // testSearch(vec, chooseKeysForSearch(vec));
-    const auto search = binarySearch;
-    const std::string name = "binary";
-    constexpr int num_of_runs = 10000; // Change according to how slow the search is
+    const auto search = randomSearch;
+    const std::string name = "randomSearch";
+    constexpr int num_of_runs = 100; // Change according to how slow the search is
 
     std::random_device rd;
     std::mt19937 rng(rd()); // Used as an argument to random search
@@ -47,7 +47,7 @@ int main() {
             std::array<int, types_of_keys> keys_array = {keys.near_start, keys.near_middle, keys.near_end, keys.not_in_collection};
             int key = keys_array[i % types_of_keys];
             auto start = std::chrono::high_resolution_clock::now();
-            search(vec, key);
+            search(vec, key, rng);
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = end - start;
             runtimes[i % types_of_keys] += static_cast<long>(duration.count());
@@ -72,8 +72,10 @@ int main() {
 }
 
 void testSearch(std::vector<int>& vec, KeysForSearch keys) {
+    std::random_device rd;
+    std::mt19937 rng(rd());
     for (int n : {keys.near_start, keys.near_middle, keys.near_end, keys.not_in_collection}) {
-        std::cout << jumpSearch(vec, n) << std::endl;
+        std::cout << randomSearch(vec, n, rng) << std::endl;
     }
 }
 
@@ -88,7 +90,7 @@ KeysForSearch chooseKeysForSearch(const std::vector<int> &vec) {
     if (vec.size() == 1) {
         keys.not_in_collection = -1;
     } else {
-        std::uniform_int_distribution<> rangeOfVec(0, vec.back());
+        std::uniform_int_distribution<> rangeOfVec(0, vec.size() * 10);
         bool found = false;
         do {
             int random = rangeOfVec(gen);
@@ -104,11 +106,11 @@ KeysForSearch chooseKeysForSearch(const std::vector<int> &vec) {
 std::vector<int> createRandomSortedArray(int size) {
     // Create an array of size n with values in range [0, size*10]
     std::mt19937 gen(1337);
-    std::uniform_int_distribution<> dist(0, 10);
+    std::uniform_int_distribution<> dist(0, size * 10);
     std::vector<int> arr(size);
-    arr[0] = dist(gen);
     for (int i = 1; i < size; i++)
-        arr[i] = arr[i-1] + dist(gen);
+        arr[i] = dist(gen);
+    std::sort(arr.begin(), arr.end());
     return arr;
 }
 
