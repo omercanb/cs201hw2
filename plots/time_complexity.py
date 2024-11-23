@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import math
 
-name = 'random'
+name = 'linearRecursive'
 
 name_to_title = {
     'linear' : 'Linear',
@@ -13,8 +13,8 @@ name_to_title = {
     'random' : 'Random'
 }
 
-recursive_c = 5.5
-random_c = 5.1
+recursive_c = 3.3
+random_c = 9
 
 name_to_func_dict = {
     'linear' : {
@@ -45,7 +45,7 @@ name_to_func_dict = {
         'near_start': lambda x: random_c*x + x/2,
         'near_middle': lambda x: random_c*x + x/2,
         'near_end': lambda x: random_c*x + x/2,
-        'not_in_collection': lambda x: random_c*x + x/2,
+        'not_in_collection': lambda x: random_c*x + x,
     }
 }
 
